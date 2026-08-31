@@ -367,8 +367,10 @@ function renderVideos() {
         card.style.animationDelay = `${index * 0.15}s`;
         
         const previewContent = item.youtubeId 
-            ? `<img src="https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;" alt="Video Preview">`
-            : `<video src="${item.src}" preload="metadata" muted playsinline></video>`;
+            ? `<div class="yt-preview-box" style="position:relative;width:100%;height:100%;overflow:hidden;border-radius:12px;">
+                <img src="https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;" alt="Video Preview">
+               </div>`
+            : `<video src="${item.src}" preload="metadata" muted loop playsinline></video>`;
 
         card.innerHTML = `
             <div class="video-preview-wrapper">
@@ -414,11 +416,12 @@ function openLightboxMedia(type, srcOrId, caption) {
     if (type === 'youtube') {
         if (iframeEl) {
             iframeEl.style.display = "block";
-            iframeEl.src = `https://www.youtube.com/embed/${srcOrId}?autoplay=1&rel=0`;
+            iframeEl.src = `https://www.youtube-nocookie.com/embed/${srcOrId}?autoplay=1&loop=1&playlist=${srcOrId}&controls=1&rel=0`;
         }
     } else if (type === 'video') {
         vidEl.style.display = "block";
         vidEl.src = srcOrId;
+        vidEl.loop = true;
         vidEl.play().catch(() => {});
     } else {
         imgEl.style.display = "block";
