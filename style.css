@@ -1,0 +1,1488 @@
+/* ==========================================
+   CINEMATIC BIRTHDAY WEBSITE DESIGN SYSTEM
+   Theme: "A Little Universe Made Just For You"
+   ========================================== */
+
+:root {
+    --bg-dark: #050714;
+    --bg-navy: #0a0d28;
+    --accent-pink: #ff758c;
+    --accent-purple: #7b2cbf;
+    --accent-gold: #ffd700;
+    --accent-cyan: #4cc9f0;
+    --text-light: #f8f9fa;
+    --text-muted: #a0aab8;
+    --glass-bg: rgba(15, 23, 42, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-glow: rgba(123, 44, 191, 0.25);
+    --font-heading: 'Outfit', 'Montserrat', sans-serif;
+    --font-handwriting: 'Dancing Script', 'Caveat', cursive;
+    --font-body: 'Outfit', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    touch-action: manipulation;
+}
+
+/* Background Canvas */
+#cosmic-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* App & Page Layout */
+#app {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    zoom: 100%;
+}
+
+.page {
+    display: none;
+    min-height: 100vh;
+    max-height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2.5rem 1.5rem 5rem 1.5rem;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 215, 0, 0.5) transparent;
+}
+
+.page.active {
+    display: flex;
+    opacity: 1;
+}
+
+.content-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   FLOATING MUSIC BUTTON
+   ========================================== */
+.music-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 20px rgba(123, 44, 191, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.1);
+    color: #fff;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+}
+
+.music-icon {
+    font-size: 1.4rem;
+}
+
+.music-waves {
+    display: none;
+    align-items: flex-end;
+    gap: 3px;
+    height: 16px;
+    margin-left: 4px;
+}
+
+.music-waves span {
+    width: 3px;
+    background: var(--accent-gold);
+    border-radius: 2px;
+    animation: wave 1.2s infinite ease-in-out alternate;
+}
+
+.music-waves span:nth-child(2) { animation-delay: 0.2s; }
+.music-waves span:nth-child(3) { animation-delay: 0.4s; }
+
+.music-btn.playing .music-waves {
+    display: flex;
+}
+
+@keyframes wave {
+    0% { height: 4px; }
+    100% { height: 16px; }
+}
+
+/* ==========================================
+   BUTTONS & GLASSMORPHISM
+   ========================================== */
+.btn-glow {
+    position: relative;
+    padding: 1rem 2.2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1.5px solid rgba(255, 215, 0, 0.5);
+    border-radius: 50px;
+    backdrop-filter: blur(15px);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 25px rgba(255, 117, 140, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2rem;
+}
+
+.btn-glow:hover {
+    transform: translateY(-3px) scale(1.03);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 0 15px rgba(255, 117, 140, 0.6);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.btn-glow:active {
+    transform: translateY(1px);
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px var(--glass-glow);
+}
+
+/* ==========================================
+   PAGE 1: OPENING
+   ========================================== */
+.sky-moon {
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fffdf0 0%, #ffe99b 40%, rgba(255, 233, 155, 0.2) 70%, transparent 100%);
+    box-shadow: 0 0 60px rgba(255, 233, 155, 0.8), 0 0 120px rgba(255, 215, 0, 0.4);
+    pointer-events: none;
+    animation: moonGlow 6s infinite alternate ease-in-out;
+}
+
+@keyframes moonGlow {
+    0% { transform: scale(1); box-shadow: 0 0 60px rgba(255, 233, 155, 0.8); }
+    100% { transform: scale(1.05); box-shadow: 0 0 90px rgba(255, 233, 155, 1), 0 0 150px rgba(255, 117, 140, 0.5); }
+}
+
+.subtitle {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--accent-pink);
+    letter-spacing: 2px;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 0 15px rgba(255, 117, 140, 0.6);
+}
+
+.main-tagline {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #ff758c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.2rem;
+    line-height: 1.2;
+}
+
+/* Page 1 Live Birthday Reveal Countdown Card */
+.reveal-countdown-card {
+    width: 100%;
+    max-width: 580px;
+    margin: 1.2rem auto 2rem auto;
+    padding: 1.5rem 1.2rem;
+    border: 1.5px solid rgba(255, 215, 0, 0.45);
+    box-shadow: 0 15px 40px rgba(123, 44, 191, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.15);
+    background: rgba(15, 23, 42, 0.75);
+}
+
+.reveal-timer-header {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent-pink);
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.reveal-timer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    width: 100%;
+}
+
+.reveal-box {
+    background: rgba(10, 13, 40, 0.85);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    border-radius: 12px;
+    padding: 0.7rem 0.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.reveal-box:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-gold);
+}
+
+.reveal-num {
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 0 12px var(--accent-gold);
+    line-height: 1;
+}
+
+.reveal-unit {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent-pink);
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
+
+/* ==========================================
+   PAGE 2: THE REVEAL & 3D CAKE
+   ========================================== */
+.reveal-text-container {
+    margin-bottom: 2rem;
+}
+
+.reveal-line-1, .reveal-line-2 {
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.reveal-hbd {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff, #ffd700, #ff758c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-top: 0.5rem;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+.heart-pulse {
+    display: inline-block;
+    color: var(--accent-pink);
+    animation: heartPulse 1.5s infinite;
+}
+
+@keyframes heartPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+}
+
+/* Feature: The Time This Angel Has Completed on Earth */
+.angel-timer-card {
+    width: 100%;
+    max-width: 680px;
+    margin: 1.5rem auto 2rem auto;
+    padding: 1.8rem 1.5rem;
+    border: 1.5px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 0 15px 40px rgba(123, 44, 191, 0.5), inset 0 0 25px rgba(255, 215, 0, 0.15);
+    background: rgba(15, 23, 42, 0.7);
+}
+
+.angel-timer-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff, var(--accent-gold), var(--accent-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.3rem;
+}
+
+.angel-timer-sub {
+    font-size: 0.95rem;
+    color: var(--accent-pink);
+    letter-spacing: 1px;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+}
+
+.angel-timer-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.8rem;
+    width: 100%;
+}
+
+@media (max-width: 640px) {
+    .angel-timer-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+    }
+}
+
+.timer-box {
+    background: rgba(10, 13, 40, 0.85);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    border-radius: 14px;
+    padding: 0.8rem 0.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.timer-box:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+}
+
+.timer-num {
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 0 12px var(--accent-gold);
+    line-height: 1;
+}
+
+.timer-unit {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent-pink);
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
+
+/* 3D Cake CSS */
+.cake-container {
+    position: relative;
+    width: 220px;
+    height: 180px;
+    margin: 2rem auto;
+}
+
+.cake {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 130px;
+}
+
+.plate {
+    position: absolute;
+    bottom: -10px;
+    left: -20px;
+    width: 220px;
+    height: 18px;
+    background: linear-gradient(to right, #4a5568, #cbd5e0, #4a5568);
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+.layer {
+    position: absolute;
+    width: 180px;
+    border-radius: 12px 12px 0 0;
+}
+
+.layer-bottom {
+    bottom: 0;
+    height: 45px;
+    background: linear-gradient(135deg, #7b2cbf, #3a0ca3);
+}
+
+.layer-middle {
+    bottom: 40px;
+    height: 45px;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+}
+
+.layer-top {
+    bottom: 80px;
+    height: 45px;
+    background: linear-gradient(135deg, #fff0f5, #ffd1dc);
+}
+
+.icing {
+    position: absolute;
+    bottom: 120px;
+    width: 180px;
+    height: 12px;
+    background: #ffffff;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 2px 10px rgba(255,255,255,0.8);
+}
+
+/* Candles & Flame */
+.candles {
+    position: absolute;
+    bottom: 125px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 30px;
+}
+
+.candle {
+    position: relative;
+    width: 12px;
+    height: 38px;
+    background: linear-gradient(to right, #ffd700, #ffae00);
+    border-radius: 4px 4px 0 0;
+}
+
+.flame {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 20px;
+    background: radial-gradient(ellipse at bottom, #fff, #ffd700 40%, #ff4500 80%, transparent 100%);
+    border-radius: 50% 50% 35% 35%;
+    box-shadow: 0 0 15px #ffd700, 0 0 30px #ff4500;
+    animation: flicker 1.2s infinite alternate ease-in-out;
+}
+
+.candle.out .flame {
+    display: none;
+}
+
+.smoke {
+    display: none;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    width: 6px;
+    height: 20px;
+    background: rgba(200, 200, 200, 0.6);
+    border-radius: 50%;
+    filter: blur(3px);
+}
+
+.candle.out .smoke {
+    display: block;
+    animation: smokeRise 2s forwards;
+}
+
+@keyframes flicker {
+    0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+    100% { transform: translateX(-50%) scale(1.15) rotate(2deg); }
+}
+
+@keyframes smokeRise {
+    0% { opacity: 0.8; transform: translateX(-50%) translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-40px) scale(3); }
+}
+
+/* ==========================================
+   PAGE 3: MEMORIES GALLERY
+   ========================================== */
+.section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.section-header h2 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    background: linear-gradient(135deg, #fff, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.polaroid-card {
+    background: #ffffff;
+    padding: 14px 14px 24px 14px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: rotate(var(--rot, 0deg));
+}
+
+.polaroid-card:nth-child(odd) { --rot: -3deg; }
+.polaroid-card:nth-child(even) { --rot: 3deg; }
+
+.polaroid-card:hover {
+    transform: rotate(0deg) scale(1.05) translateY(-8px);
+    box-shadow: 0 25px 50px rgba(255, 215, 0, 0.4);
+    z-index: 10;
+}
+
+.polaroid-img-wrapper {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #1a1a1a;
+}
+
+.polaroid-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.polaroid-card:hover .polaroid-img-wrapper img {
+    transform: scale(1.08);
+}
+
+.polaroid-caption {
+    font-family: var(--font-handwriting);
+    font-size: 1.4rem;
+    color: #1e293b;
+    text-align: center;
+    margin-top: 14px;
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 7, 20, 0.92);
+    backdrop-filter: blur(20px);
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-img {
+    max-width: 90%;
+    max-height: 75vh;
+    border-radius: 16px;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+}
+
+.lightbox-caption {
+    font-family: var(--font-handwriting);
+    font-size: 2rem;
+    color: var(--accent-gold);
+    margin-top: 1.5rem;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    font-size: 3rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* ==========================================
+   PAGE 4: THE LETTER
+   ========================================== */
+.envelope-intro {
+    font-size: 1.3rem;
+    color: var(--accent-pink);
+    margin-bottom: 1.5rem;
+}
+
+.envelope-wrapper {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: #1e1b4b;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    margin: 1rem auto 2rem auto;
+    cursor: pointer;
+    transform: scale(0.92);
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 110px solid #312e81;
+    transform-origin: top;
+    transition: transform 0.6s ease;
+    z-index: 4;
+}
+
+.wax-seal {
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 42px;
+    height: 42px;
+    background: #be123c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    z-index: 5;
+    transition: opacity 0.4s ease;
+}
+
+.envelope-pocket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #2e1065, #1e1b4b);
+    border-radius: 12px;
+    clip-path: polygon(0 0, 150px 90px, 300px 0, 300px 200px, 0 200px);
+    z-index: 3;
+}
+
+.letter-paper {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 85%;
+    background: linear-gradient(135deg, #fffdfa 0%, #fff7f9 100%);
+    border-radius: 12px;
+    padding: 1.2rem;
+    color: #1e1b4b;
+    font-family: var(--font-handwriting);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 2;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 117, 140, 0.5) transparent;
+}
+
+.envelope-wrapper.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope-wrapper.open .wax-seal {
+    opacity: 0;
+}
+
+.envelope-wrapper.open .letter-paper {
+    height: 420px;
+    width: 340px;
+    max-width: 92vw;
+    bottom: -150px;
+    z-index: 10;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.85), 0 0 35px rgba(255, 215, 0, 0.5);
+    border: 1px solid rgba(255, 117, 140, 0.3);
+    padding: 1.5rem 1.3rem;
+}
+
+.letter-stanza {
+    margin-bottom: 1.2rem;
+    color: #2d1b4e;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.letter-signature {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #be123c;
+    text-align: right;
+    letter-spacing: 1px;
+}
+
+.letter-inside-btn {
+    font-size: 0.95rem !important;
+    padding: 0.75rem 1.2rem !important;
+    border-radius: 30px !important;
+    box-shadow: 0 0 20px rgba(190, 18, 60, 0.6), inset 0 0 10px rgba(255, 215, 0, 0.4) !important;
+    letter-spacing: 1px !important;
+}
+
+/* ==========================================
+   PAGE 5: THE REASONS
+   ========================================== */
+.reasons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+.reason-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    transition: all 0.4s ease;
+}
+
+.reason-card:hover {
+    transform: translateX(10px) scale(1.02);
+    border-color: var(--accent-gold);
+    box-shadow: 0 10px 30px rgba(123, 44, 191, 0.4);
+}
+
+/* Page 5 Thanks Highlight Card */
+.thanks-highlight-card {
+    max-width: 600px;
+    width: 100%;
+    margin-top: 2.5rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border: 1.5px solid rgba(255, 215, 0, 0.5);
+    box-shadow: 0 15px 40px rgba(255, 117, 140, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.2);
+    animation: glowPulse 3s infinite alternate ease-in-out;
+}
+
+@keyframes glowPulse {
+    0% { box-shadow: 0 15px 35px rgba(255, 117, 140, 0.4); }
+    100% { box-shadow: 0 20px 50px rgba(255, 215, 0, 0.7), 0 0 25px rgba(123, 44, 191, 0.6); }
+}
+
+.thanks-icon {
+    font-size: 2.5rem;
+    display: inline-block;
+    animation: heartPulse 1.5s infinite;
+}
+
+.thanks-highlight-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 900;
+    font-style: italic;
+    background: linear-gradient(135deg, #ffffff, var(--accent-gold), var(--accent-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-top: 0.6rem;
+    line-height: 1.4;
+}
+
+.reason-icon {
+    font-size: 2.2rem;
+}
+
+.reason-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+/* ==========================================
+   PAGE 6: GIFT & NASA SATELLITE TYPOGRAPHY
+   ========================================== */
+.surprise-tag {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+/* 3D Gift Box */
+.gift-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 1rem auto 2rem auto;
+    cursor: pointer;
+}
+
+.gift-body {
+    width: 140px;
+    height: 110px;
+    background: linear-gradient(135deg, #be123c, #881337);
+    border-radius: 12px;
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.gift-lid {
+    width: 152px;
+    height: 35px;
+    background: linear-gradient(135deg, #e11d48, #9f1239);
+    border-radius: 8px;
+    position: absolute;
+    top: 0;
+    left: -6px;
+    z-index: 2;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ribbon-vertical {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 100%;
+    background: var(--accent-gold);
+}
+
+.ribbon-horizontal {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 25px;
+    background: var(--accent-gold);
+}
+
+.gift-wrapper.shaking {
+    animation: giftShake 0.5s infinite;
+}
+
+.gift-wrapper.open .gift-lid {
+    transform: translateY(-80px) rotate(-15deg);
+    opacity: 0;
+}
+
+@keyframes giftShake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+
+/* NASA Satellite Image Typography Reveal Section */
+.nasa-reveal-box {
+    display: none;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 1s ease;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.nasa-reveal-box.active {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.nasa-sub {
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    color: var(--accent-pink);
+    text-shadow: 0 0 15px var(--accent-pink);
+    margin-bottom: 0.5rem;
+}
+
+.nasa-intro-line {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+/* NASA Name Wrapper & Letter Fill */
+.nasa-name-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 1.5rem auto;
+    padding: 1rem;
+}
+
+.nasa-letter {
+    font-family: 'Outfit', 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 14vw, 8rem);
+    text-transform: uppercase;
+    line-height: 1;
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* Subtle glowing borders and satellite feel */
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.4)) drop-shadow(0 0 25px rgba(123, 44, 191, 0.6));
+    -webkit-text-stroke: 1px rgba(255, 215, 0, 0.4);
+    animation: nasaSlowPan 25s infinite alternate ease-in-out;
+    transition: transform 0.5s ease;
+}
+
+.nasa-letter:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes nasaSlowPan {
+    0% { background-position: 0% 50%; }
+/* NASA Satellite Name Banners Container - 50% Smaller Zigzag Layout */
+.nasa-banners-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 380px; /* Scaled down 50% from 750px */
+    margin: 1.5rem auto;
+}
+
+.nasa-banner-card {
+    position: relative;
+    width: 88%; /* Compact width for zigzag offset */
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 20px rgba(123, 44, 191, 0.6), 0 0 10px rgba(255, 215, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Zigzag Alternating Alignment & Tilts */
+.nasa-banner-card:nth-child(1) {
+    align-self: flex-start;
+    transform: rotate(-4deg) translateX(-10px);
+}
+
+.nasa-banner-card:nth-child(2) {
+    align-self: flex-end;
+    transform: rotate(4deg) translateX(10px);
+}
+
+.nasa-banner-card:nth-child(3) {
+    align-self: flex-start;
+    transform: rotate(-2deg) translateX(-6px);
+}
+
+.nasa-banner-card:hover {
+    transform: rotate(0deg) scale(1.08);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
+    z-index: 10;
+}
+
+.nasa-banner-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.nasa-text-clipped-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 1rem;
+/* Hubble Telescope Section Styles */
+.hubble-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 950px;
+    margin-top: 1rem;
+}
+
+.hubble-card {
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    border: 1px solid rgba(76, 201, 240, 0.3);
+}
+
+.hubble-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 15px 35px rgba(76, 201, 240, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.hubble-img-wrapper {
+    width: 100%;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+
+.hubble-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.hubble-card:hover .hubble-img-wrapper img {
+    transform: scale(1.1);
+}
+
+.hubble-caption {
+    font-size: 0.95rem;
+    color: var(--accent-cyan);
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+/* Video Memories Grid Section */
+.video-section-header {
+    text-align: center;
+    margin-top: 2.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.video-section-header h3 {
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    background: linear-gradient(135deg, var(--accent-gold), var(--accent-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.4rem;
+}
+
+.video-section-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 920px;
+    margin-top: 0.8rem;
+}
+
+.video-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 18px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+.video-card:hover {
+    transform: translateY(-6px) scale(1.04);
+    border-color: var(--accent-gold);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5), 0 0 20px rgba(255, 117, 140, 0.4);
+}
+
+.video-preview-wrapper {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+}
+
+.video-preview-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.video-card:hover .video-preview-wrapper video {
+    transform: scale(1.08);
+}
+
+.video-play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.video-card:hover .video-play-overlay {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.play-btn-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.9);
+    color: #050714;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    padding-left: 3px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.video-card:hover .play-btn-circle {
+    transform: scale(1.2);
+    background: #ffffff;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 1);
+}
+
+.video-caption {
+    font-size: 1.05rem;
+    color: var(--accent-gold);
+    text-align: center;
+    margin: 12px auto 4px auto;
+    font-weight: 700;
+    width: 100%;
+    display: block;
+}
+
+/* Lightbox Video Styling */
+.lightbox-video {
+    max-width: 90vw;
+    max-height: 75vh;
+    border-radius: 16px;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+    outline: none;
+}
+
+/* ==========================================
+   PAGE 7: FINAL WISH & REPLAY
+   ========================================== */
+.final-wish-card {
+    max-width: 650px;
+    width: 100%;
+}
+
+.final-hbd {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: var(--text-light);
+    letter-spacing: 2px;
+}
+
+.final-name {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-gold), var(--accent-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0.5rem 0 1.5rem 0;
+}
+
+.final-quote {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.final-thanks {
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    font-weight: 800;
+    font-style: italic;
+    background: linear-gradient(135deg, #ffffff, var(--accent-gold), var(--accent-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 1.2rem 0;
+    letter-spacing: 0.5px;
+    filter: drop-shadow(0 0 15px rgba(255, 117, 140, 0.5));
+}
+
+.final-sparkle {
+    font-size: 1.4rem;
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+    .page { padding: 1.5rem 1rem; }
+    .btn-glow { padding: 0.8rem 1.6rem; font-size: 0.95rem; }
+    .polaroid-card { padding: 10px 10px 18px 10px; }
+    .polaroid-img-wrapper { height: 170px; }
+    .envelope-wrapper { width: 280px; height: 190px; }
+    .envelope-flap { border-left-width: 140px; border-right-width: 140px; border-top-width: 100px; }
+}
+
+/* ==========================================
+   NOVEMBER 14 BIRTHDAY GATE LOCK SCREEN
+   ========================================== */
+.lock-screen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 7, 20, 0.95);
+    backdrop-filter: blur(25px);
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.lock-card {
+    max-width: 650px;
+    width: 100%;
+    text-align: center;
+    border: 1.5px solid rgba(255, 215, 0, 0.5);
+    box-shadow: 0 20px 60px rgba(123, 44, 191, 0.6), inset 0 0 30px rgba(255, 215, 0, 0.2);
+    padding: 2.5rem 2rem;
+}
+
+.lock-icon-glow {
+    font-size: 3.5rem;
+    margin-bottom: 0.8rem;
+    animation: heartPulse 2s infinite;
+}
+
+.lock-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffffff, var(--accent-gold), var(--accent-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+}
+
+.lock-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.lock-subtitle strong {
+    color: var(--accent-gold);
+}
+
+.lock-countdown-container {
+    background: rgba(10, 13, 40, 0.8);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    padding: 1.5rem 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.countdown-label {
+    font-size: 0.95rem;
+    color: var(--accent-pink);
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.lock-timer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 500px) {
+    .lock-timer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+}
+
+.lock-box {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    border-radius: 14px;
+    padding: 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.lock-num {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 0 15px var(--accent-gold);
+    line-height: 1;
+}
+
+.lock-unit {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-pink);
+    letter-spacing: 1.5px;
+    margin-top: 6px;
+}
+
+.lock-note {
+    font-family: var(--font-handwriting);
+    font-size: 1.4rem;
+    color: var(--accent-gold);
+    margin-top: 0.8rem;
+}
+
+/* Password Unlock Box */
+.password-unlock-box {
+    margin-top: 1.8rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 215, 0, 0.25);
+    width: 100%;
+}
+
+.pass-label {
+    font-size: 1rem;
+    color: var(--accent-gold);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+
+.pass-input-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+#pass-input {
+    padding: 0.8rem 1.2rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-align: center;
+    color: #ffffff;
+    background: rgba(10, 13, 40, 0.85);
+    border: 1.5px solid rgba(255, 215, 0, 0.45);
+    border-radius: 30px;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 180px;
+}
+
+#pass-input:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+
+.pass-btn {
+    margin-top: 0 !important;
+    padding: 0.75rem 1.4rem !important;
+    font-size: 0.95rem !important;
+}
+
+.pass-error-text {
+    color: #ff4500;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-top: 0.8rem;
+    text-shadow: 0 0 10px rgba(255, 69, 0, 0.6);
+}
+
+.shake-input {
+    animation: inputShake 0.5s ease-in-out;
+}
+
+@keyframes inputShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}

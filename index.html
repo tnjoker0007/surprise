@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Little Universe Made Just For You ✨</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;600;800;900&family=Outfit:wght@300;400;600;800;900&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- GSAP for Smooth Cinematic Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Cosmic Starfield Canvas -->
+    <canvas id="cosmic-canvas"></canvas>
+
+    <!-- Floating Audio Control -->
+    <button id="music-toggle" class="music-btn" aria-label="Toggle Music">
+        <span class="music-icon">🎵</span>
+        <span class="music-waves">
+            <span></span><span></span><span></span>
+        </span>
+    </button>
+
+    <!-- Birthday Password & Date Lock Screen -->
+    <div id="birthday-lock-screen" class="lock-screen-overlay" style="display: flex;">
+        <div class="lock-card glass-card">
+            <div class="lock-icon-glow">🔒</div>
+            <h1 class="lock-title">A Special Universe Reserved For Nov 14th</h1>
+            <p class="lock-subtitle">This birthday surprise unlocks automatically every year on <strong>14th November (14.11)</strong>!</p>
+            
+            <div class="lock-countdown-container">
+                <p class="countdown-label">Time Remaining Until November 14th:</p>
+                <div class="lock-timer-grid">
+                    <div class="lock-box">
+                        <span class="lock-num" id="lock-days">00</span>
+                        <span class="lock-unit">DAYS</span>
+                    </div>
+                    <div class="lock-box">
+                        <span class="lock-num" id="lock-hours">00</span>
+                        <span class="lock-unit">HOURS</span>
+                    </div>
+                    <div class="lock-box">
+                        <span class="lock-num" id="lock-mins">00</span>
+                        <span class="lock-unit">MINS</span>
+                    </div>
+                    <div class="lock-box">
+                        <span class="lock-num" id="lock-secs">00</span>
+                        <span class="lock-unit">SECS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Form to Unlock Early -->
+            <div class="password-unlock-box">
+                <p class="pass-label">🔑 Enter Password to Unlock Early:</p>
+                <div class="pass-input-wrapper">
+                    <input type="password" id="pass-input" placeholder="Password" maxlength="8">
+                    <button id="btn-pass-unlock" class="btn-glow glass-btn pass-btn">
+                        <span>UNLOCK 🔓</span>
+                    </button>
+                </div>
+                <p id="pass-error" class="pass-error-text" style="display: none;">❌ Incorrect Password. Hint: Birth Year</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Experience Container -->
+    <main id="app">
+
+        <!-- PAGE 1 — OPENING SCREEN -->
+        <section id="page-1" class="page active">
+            <div class="sky-moon"></div>
+            <div class="clouds-layer"></div>
+            
+            <div class="content-center">
+                <p class="subtitle fade-in">I made something for you…</p>
+                <h1 class="main-tagline fade-in">Don’t rush. Take a little moment.</h1>
+                
+                <button id="btn-start" class="btn-glow glass-btn">
+                    <span class="sparkle-icon">✨</span>
+                    <span>OPEN YOUR SURPRISE</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- PAGE 2 — THE REVEAL -->
+        <section id="page-2" class="page">
+            <div class="content-center">
+                <div class="reveal-text-container">
+                    <p class="reveal-line-1">Today isn't just another day…</p>
+                    <p class="reveal-line-2">Today, someone truly special was born.</p>
+                    <h1 class="reveal-hbd">HAPPY BIRTHDAY <span class="heart-pulse">❤️</span></h1>
+                    <div class="nasa-name-display-container page2-nasa"></div>
+                </div>
+
+                <!-- Feature: The Time This Angel Has Completed on Earth -->
+                <div class="angel-timer-card glass-card">
+                    <h3 class="angel-timer-title">✨ The Time This Angel Has Completed on Earth ✨</h3>
+                    <p class="angel-timer-sub">Since November 14, 2005 at 6:45 PM</p>
+                    
+                    <div class="angel-timer-grid">
+                        <div class="timer-box">
+                            <span class="timer-num" id="angel-years">0</span>
+                            <span class="timer-unit">YEARS</span>
+                        </div>
+                        <div class="timer-box">
+                            <span class="timer-num" id="angel-months">0</span>
+                            <span class="timer-unit">MONTHS</span>
+                        </div>
+                        <div class="timer-box">
+                            <span class="timer-num" id="angel-days">0</span>
+                            <span class="timer-unit">DAYS</span>
+                        </div>
+                        <div class="timer-box">
+                            <span class="timer-num" id="angel-hours">0</span>
+                            <span class="timer-unit">HOURS</span>
+                        </div>
+                        <div class="timer-box">
+                            <span class="timer-num" id="angel-minutes">0</span>
+                            <span class="timer-unit">MINS</span>
+                        </div>
+                        <div class="timer-box">
+                            <span class="timer-num" id="angel-seconds">0</span>
+                            <span class="timer-unit">SECS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3D CSS Birthday Cake -->
+                <div class="cake-container">
+                    <div class="cake">
+                        <div class="plate"></div>
+                        <div class="layer layer-bottom"></div>
+                        <div class="layer layer-middle"></div>
+                        <div class="layer layer-top"></div>
+                        <div class="icing"></div>
+                        <div class="drips">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        
+                        <!-- Candles -->
+                        <div class="candles">
+                            <div class="candle">
+                                <div class="flame"></div>
+                                <div class="smoke"></div>
+                            </div>
+                            <div class="candle">
+                                <div class="flame"></div>
+                                <div class="smoke"></div>
+                            </div>
+                            <div class="candle">
+                                <div class="flame"></div>
+                                <div class="smoke"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-wish" class="btn-glow glass-btn wish-btn">
+                    <span>🎂 MAKE A WISH</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- PAGE HUBBLE — WHAT HUBBLE SAW ON YOUR BIRTHDAY -->
+        <section id="page-hubble" class="page">
+            <div class="section-header">
+                <h2>🔭 What Hubble Saw On Your Birthday</h2>
+                <p>On your special day, NASA’s Hubble Telescope captured these cosmic marvels in deep space…</p>
+            </div>
+
+            <div class="hubble-grid" id="hubble-container">
+                <!-- Injected dynamically from birthdayConfig.hubblePhotos -->
+            </div>
+
+            <button id="btn-hubble-next" class="btn-glow glass-btn" style="margin-top: 2rem;">
+                <span>CONTINUE THE JOURNEY ✨</span>
+            </button>
+        </section>
+
+        <!-- PAGE 3 — OUR MEMORIES -->
+        <section id="page-3" class="page">
+            <div class="section-header">
+                <h2>A Few Moments Worth Remembering…</h2>
+                <p>Hover & click to view photos and videos</p>
+            </div>
+
+            <div class="gallery-grid" id="gallery-container">
+                <!-- Injected via JavaScript from birthdayConfig.memories -->
+            </div>
+
+            <!-- Live Video Reels & Clips Section -->
+            <div class="video-section-header">
+                <h3>🎥 Live Video Memories</h3>
+                <p>Click any video to watch in full screen with sound</p>
+            </div>
+            <div class="videos-grid" id="videos-container">
+                <!-- Injected via JavaScript from birthdayConfig.videos -->
+            </div>
+
+            <button id="btn-page3-next" class="btn-glow glass-btn" style="margin-top: 2.5rem;">
+                <span>READ THE LETTER 💌</span>
+            </button>
+        </section>
+
+        <!-- PAGE 4 — THE LETTER -->
+        <section id="page-4" class="page">
+            <div class="content-center">
+                <p class="envelope-intro">There’s something I wanted to tell you…</p>
+                
+                <div class="envelope-wrapper" id="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="wax-seal">❤️</div>
+                    <div class="envelope-pocket"></div>
+                    
+                    <div class="letter-paper" id="letter-paper">
+                        <div class="letter-content" id="letter-text">
+                            <!-- Injected dynamically from config -->
+                        </div>
+                        <button id="btn-letter-inside-next" class="btn-glow glass-btn letter-inside-btn" style="display: none; width: 100%; justify-content: center; margin-top: 1.5rem; background: #be123c; border-color: #ffd700;">
+                            <span>CONTINUE THE JOURNEY ✨</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="letter-action-btns">
+                    <button id="btn-open-letter" class="btn-glow glass-btn">
+                        <span>💌 OPEN LETTER</span>
+                    </button>
+                    <button id="btn-letter-next" class="btn-glow glass-btn" style="display: none; margin-top: 10.5rem;">
+                        <span>CONTINUE THE JOURNEY ✨</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 5 — THE REASONS -->
+        <section id="page-5" class="page">
+            <div class="section-header">
+                <h2>Why You’re Special</h2>
+                <p>Scroll down to reveal</p>
+            </div>
+
+            <div class="reasons-container" id="reasons-list">
+                <!-- Injected dynamically from config -->
+            </div>
+
+            <!-- Thanks Message Card Right After Why You're Special -->
+            <div class="thanks-highlight-card glass-card">
+                <span class="thanks-icon">❤️</span>
+                <h2 class="thanks-highlight-title">“Thank You For Everything That You Gave In My Life.”</h2>
+            </div>
+
+            <button id="btn-page5-next" class="btn-glow glass-btn" style="margin-top: 2rem;">
+                <span>OPEN YOUR SURPRISE GIFT 🎁</span>
+            </button>
+        </section>
+
+        <!-- PAGE 6 — THE SURPRISE & NASA TYPOGRAPHY -->
+        <section id="page-6" class="page">
+            <div class="content-center">
+                <p class="surprise-tag">Okay… one last thing.</p>
+                
+                <!-- 3D Shaking Gift Box -->
+                <div class="gift-wrapper" id="gift-box">
+                    <div class="gift-lid">
+                        <div class="ribbon-bow"></div>
+                    </div>
+                    <div class="gift-body">
+                        <div class="ribbon-vertical"></div>
+                        <div class="ribbon-horizontal"></div>
+                    </div>
+                    <div class="gift-aura"></div>
+                </div>
+
+                <button id="btn-open-gift" class="btn-glow glass-btn gift-btn">
+                    <span>🎁 OPEN THE GIFT</span>
+                </button>
+
+                <!-- NASA Satellite Typography Reveal Box (Initially Hidden) -->
+                <div id="nasa-reveal-container" class="nasa-reveal-box">
+                    <h3 class="nasa-sub">YOU DESERVE THE BEST.</h3>
+                    <p class="nasa-intro-line">Happy Birthday,</p>
+                    
+                    <!-- Dynamic NASA Image-Filled Typography Container -->
+                    <div class="nasa-name-wrapper" id="nasa-name-target">
+                        <!-- Letters filled with NASA Satellite Images injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 7 — WISH & REPLAY -->
+        <section id="page-7" class="page">
+            <div class="content-center">
+                <div class="final-wish-card glass-card">
+                    <h1 class="final-hbd">HAPPY BIRTHDAY</h1>
+                    <div class="final-name" id="final-name-display"></div>
+                    
+                    <p class="final-quote">“May your next chapter be even more beautiful than the last.”</p>
+                    <p class="final-thanks">“Thank you for everything that you gave in my life.” ❤️</p>
+                    <p class="final-sparkle">Keep shining. ✨</p>
+                    
+                    <button id="btn-restart" class="btn-glow glass-btn restart-btn">
+                        <span>🔄 START THE SURPRISE AGAIN</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Photo & Video Lightbox Modal -->
+    <div id="lightbox-modal" class="lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img class="lightbox-img" id="lightbox-img" src="" alt="Memory" style="display:none;">
+            <video class="lightbox-video" id="lightbox-video" controls playsinline style="display:none;"></video>
+            <p class="lightbox-caption" id="lightbox-caption"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
