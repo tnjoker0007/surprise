@@ -61,10 +61,11 @@ Happy Birthday to someone truly special. ❤️
     ],
 
     videos: [
-        { youtubeId: "KVNZaue9y5o", src: "assets/videos/video_1.mp4", caption: "Unforgettable Joyful Moments 🎥" },
-        { youtubeId: "t5wEPpYcejw", src: "assets/videos/video_2.mp4", caption: "Laughter & Pure Happiness ✨" },
-        { src: "assets/videos/video_3.mp4", caption: "Special Birthday Celebration 💖" },
-        { src: "assets/videos/video_4.mp4", caption: "Cherished Memories Together 🌟" }
+        { youtubeId: "UWXWCTsyHL4", caption: "Unforgettable Joyful Moments 🎥" },
+        { youtubeId: "V6PtTdZrW1M", caption: "Laughter & Pure Happiness ✨" },
+        { youtubeId: "FyEMJImaf5I", caption: "Special Birthday Celebration 💖" },
+        { youtubeId: "t5wEPpYcejw", caption: "Cherished Memories Together 🌟" },
+        { youtubeId: "KVNZaue9y5o", caption: "Precious Moments & Endless Smiles 🌸" }
     ]
 };
 
