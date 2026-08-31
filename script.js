@@ -61,8 +61,8 @@ Happy Birthday to someone truly special. ❤️
     ],
 
     videos: [
-        { src: "assets/videos/video_1.mp4", caption: "Unforgettable Joyful Moments 🎥" },
-        { src: "assets/videos/video_2.mp4", caption: "Laughter & Pure Happiness ✨" },
+        { youtubeId: "KVNZaue9y5o", src: "assets/videos/video_1.mp4", caption: "Unforgettable Joyful Moments 🎥" },
+        { youtubeId: "t5wEPpYcejw", src: "assets/videos/video_2.mp4", caption: "Laughter & Pure Happiness ✨" },
         { src: "assets/videos/video_3.mp4", caption: "Special Birthday Celebration 💖" },
         { src: "assets/videos/video_4.mp4", caption: "Cherished Memories Together 🌟" }
     ]
@@ -366,9 +366,13 @@ function renderVideos() {
         card.className = "video-card glass-card";
         card.style.animationDelay = `${index * 0.15}s`;
         
+        const previewContent = item.youtubeId 
+            ? `<img src="https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;" alt="Video Preview">`
+            : `<video src="${item.src}" preload="metadata" muted playsinline></video>`;
+
         card.innerHTML = `
             <div class="video-preview-wrapper">
-                <video src="${item.src}" preload="metadata" muted playsinline></video>
+                ${previewContent}
                 <div class="video-play-overlay">
                     <div class="play-btn-circle">▶</div>
                 </div>
@@ -377,39 +381,48 @@ function renderVideos() {
         `;
         
         const vidEl = card.querySelector("video");
-        card.addEventListener("mouseenter", () => {
-            vidEl.play().catch(() => {});
-        });
-        card.addEventListener("mouseleave", () => {
-            vidEl.pause();
-            vidEl.currentTime = 0;
-        });
+        if (vidEl) {
+            card.addEventListener("mouseenter", () => { vidEl.play().catch(() => {}); });
+            card.addEventListener("mouseleave", () => { vidEl.pause(); vidEl.currentTime = 0; });
+        }
 
-        card.addEventListener("click", () => openLightboxMedia('video', item.src, item.caption));
+        card.addEventListener("click", () => {
+            if (item.youtubeId) {
+                openLightboxMedia('youtube', item.youtubeId, item.caption);
+            } else {
+                openLightboxMedia('video', item.src, item.caption);
+            }
+        });
         container.appendChild(card);
     });
 }
 
-function openLightboxMedia(type, src, caption) {
+function openLightboxMedia(type, srcOrId, caption) {
     const modal = document.getElementById("lightbox-modal");
     const imgEl = document.getElementById("lightbox-img");
     const vidEl = document.getElementById("lightbox-video");
+    const iframeEl = document.getElementById("lightbox-iframe");
     const captionEl = document.getElementById("lightbox-caption");
 
     captionEl.textContent = caption;
 
-    if (type === 'video') {
-        imgEl.style.display = "none";
-        imgEl.src = "";
+    // Reset displays
+    imgEl.style.display = "none"; imgEl.src = "";
+    vidEl.style.display = "none"; vidEl.pause(); vidEl.src = "";
+    if (iframeEl) { iframeEl.style.display = "none"; iframeEl.src = ""; }
+
+    if (type === 'youtube') {
+        if (iframeEl) {
+            iframeEl.style.display = "block";
+            iframeEl.src = `https://www.youtube.com/embed/${srcOrId}?autoplay=1&rel=0`;
+        }
+    } else if (type === 'video') {
         vidEl.style.display = "block";
-        vidEl.src = src;
+        vidEl.src = srcOrId;
         vidEl.play().catch(() => {});
     } else {
-        vidEl.style.display = "none";
-        vidEl.pause();
-        vidEl.src = "";
         imgEl.style.display = "block";
-        imgEl.src = src;
+        imgEl.src = srcOrId;
     }
 
     modal.classList.add("active");
@@ -418,9 +431,14 @@ function openLightboxMedia(type, src, caption) {
 function closeLightbox() {
     const modal = document.getElementById("lightbox-modal");
     const vidEl = document.getElementById("lightbox-video");
+    const iframeEl = document.getElementById("lightbox-iframe");
+    
     if (vidEl) {
         vidEl.pause();
         vidEl.src = "";
+    }
+    if (iframeEl) {
+        iframeEl.src = "";
     }
     modal.classList.remove("active");
 }
@@ -628,10 +646,11 @@ function startAudio() {
             audioContext.resume();
         }
         
-        // Play smooth ambient synthesizer pentatonic melody
-        playAmbientSynthMelody();
         isAudioPlaying = true;
         document.getElementById("music-toggle").classList.add("playing");
+        
+        // Play sweet Happy Birthday Music-Box Melody
+        playHappyBirthdayMelody();
     } catch (e) {
         console.log("Audio playback notice:", e);
     }
@@ -645,37 +664,58 @@ function stopAudio() {
     }
 }
 
-function playAmbientSynthMelody() {
-    if (!isAudioPlaying && audioContext) {
-        // Generate soothing ambient lullaby chime sequence
-        const notes = [261.63, 329.63, 392.00, 523.25, 659.25]; // C E G C E
-        let noteIndex = 0;
-        
-        const playNextNote = () => {
-            if (!isAudioPlaying) return;
-            
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-            
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(notes[noteIndex], audioContext.currentTime);
-            
-            gain.gain.setValueAtTime(0.01, audioContext.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.08, audioContext.currentTime + 0.5);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 3.0);
-            
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-            
-            osc.start();
-            osc.stop(audioContext.currentTime + 3.2);
-            
-            noteIndex = (noteIndex + 1) % notes.length;
-            setTimeout(playNextNote, 2500);
-        };
-        
-        playNextNote();
-    }
+function playHappyBirthdayMelody() {
+    if (!audioContext) return;
+    
+    // Musical notes for Happy Birthday tune (Frequencies in Hz)
+    const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, G4 = 392.00, A4 = 440.00, Bb4 = 466.16, C5 = 523.25;
+
+    // Tune sequence: [frequency, duration in beats]
+    const song = [
+        // Phrase 1: Happy Birthday to You
+        [C4, 0.75], [C4, 0.25], [D4, 1.0], [C4, 1.0], [F4, 1.0], [E4, 2.0],
+        // Phrase 2: Happy Birthday to You
+        [C4, 0.75], [C4, 0.25], [D4, 1.0], [C4, 1.0], [G4, 1.0], [F4, 2.0],
+        // Phrase 3: Happy Birthday Dear Angel
+        [C4, 0.75], [C4, 0.25], [C5, 1.0], [A4, 1.0], [F4, 1.0], [E4, 1.0], [D4, 2.0],
+        // Phrase 4: Happy Birthday to You
+        [Bb4, 0.75], [Bb4, 0.25], [A4, 1.0], [F4, 1.0], [G4, 1.0], [F4, 2.5]
+    ];
+
+    let noteIndex = 0;
+    const tempo = 450; // ms per beat
+
+    const playNext = () => {
+        if (!isAudioPlaying) return;
+
+        const [freq, duration] = song[noteIndex];
+        const noteTime = (duration * tempo) / 1000;
+
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+
+        // Soft music-box chime timbre
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+
+        gain.gain.setValueAtTime(0.01, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, audioContext.currentTime + 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + noteTime + 0.4);
+
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+
+        osc.start();
+        osc.stop(audioContext.currentTime + noteTime + 0.5);
+
+        noteIndex = (noteIndex + 1) % song.length;
+
+        // Pause slightly after each musical phrase
+        const pause = (noteIndex === 6 || noteIndex === 12 || noteIndex === 19 || noteIndex === 0) ? 600 : 0;
+        setTimeout(playNext, noteTime * 1000 + pause);
+    };
+
+    playNext();
 }
 
 // ==========================================
