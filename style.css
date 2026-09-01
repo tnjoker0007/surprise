@@ -1128,13 +1128,20 @@ html, body {
     font-size: 0.95rem;
 }
 
+#page-3 {
+    width: 100%;
+    max-width: 1450px;
+    margin: 0 auto;
+}
+
 .videos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
     width: 100%;
-    max-width: 1150px;
-    margin: 1.5rem auto 0 auto;
+    max-width: 1400px;
+    margin: 2rem auto 0 auto;
+    padding: 0 1rem;
 }
 
 .video-card {
@@ -1142,29 +1149,31 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 14px;
-    border-radius: 20px;
-    background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(15px);
-    border: 1.5px solid rgba(255, 215, 0, 0.4);
+    padding: 16px;
+    border-radius: 22px;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(255, 215, 0, 0.45);
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.65);
+    width: 100%;
 }
 
 .video-card:hover {
     transform: translateY(-8px) scale(1.03);
     border-color: var(--accent-gold);
-    box-shadow: 0 18px 45px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 117, 140, 0.4);
+    box-shadow: 0 20px 50px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 117, 140, 0.5);
 }
 
 .video-preview-wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    border-radius: 14px;
+    min-height: 210px;
+    border-radius: 16px;
     overflow: hidden;
     background: #000;
 }
@@ -1175,7 +1184,7 @@ html, body {
     height: 100%;
     border: none;
     object-fit: cover;
-    border-radius: 14px;
+    border-radius: 16px;
     transition: transform 0.6s ease;
 }
 
@@ -1203,16 +1212,16 @@ html, body {
 }
 
 .play-btn-circle {
-    width: 56px;
-    height: 56px;
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--accent-gold), var(--accent-pink));
     color: #050714;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    padding-left: 3px;
+    font-size: 1.6rem;
+    padding-left: 4px;
     box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
     transition: transform 0.3s ease, background 0.3s ease;
 }
@@ -1224,7 +1233,7 @@ html, body {
 }
 
 .video-caption {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: var(--accent-gold);
     text-align: center;
     margin: 14px auto 4px auto;
@@ -1236,13 +1245,13 @@ html, body {
 /* Lightbox Video & YouTube Styling */
 .lightbox-video,
 .lightbox-iframe {
-    width: 90vw;
-    max-width: 1050px;
-    height: 75vh;
-    max-height: 620px;
+    width: 95vw;
+    max-width: 1300px;
+    height: 82vh;
+    max-height: 750px;
     border-radius: 20px;
-    box-shadow: 0 0 60px rgba(255, 215, 0, 0.7);
-    border: 1.5px solid rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 70px rgba(255, 215, 0, 0.8);
+    border: 2px solid rgba(255, 215, 0, 0.6);
     outline: none;
 }
 
