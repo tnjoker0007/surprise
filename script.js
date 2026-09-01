@@ -373,7 +373,7 @@ function renderVideos() {
                         src="https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${item.youtubeId}&controls=0&modestbranding=1&rel=0&playsinline=1" 
                         frameborder="0" 
                         allow="autoplay; encrypted-media; picture-in-picture" 
-                        style="width:100%;height:100%;pointer-events:none;border-radius:12px;transform:scale(1.15);">
+                        style="width:100%;height:100%;pointer-events:none;border-radius:12px;transform:scale(1.35);object-fit:cover;">
                 </iframe>
                </div>`
             : `<video src="${item.src}" autoplay muted loop playsinline></video>`;
