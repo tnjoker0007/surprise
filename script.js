@@ -61,7 +61,7 @@ Happy Birthday to someone truly special. ❤️
     ],
 
     videos: [
-        { youtubeId: "UWXWCTsyHL4", caption: "Unforgettable Joyful Moments 🎥" },
+        { youtubeId: "kHQ--82ZFqE", caption: "Unforgettable Joyful Moments 🎥" },
         { youtubeId: "V6PtTdZrW1M", caption: "Laughter & Pure Happiness ✨" },
         { youtubeId: "FyEMJImaf5I", caption: "Special Birthday Celebration 💖" },
         { youtubeId: "t5wEPpYcejw", caption: "Cherished Memories Together 🌟" },
@@ -368,10 +368,15 @@ function renderVideos() {
         card.style.animationDelay = `${index * 0.15}s`;
         
         const previewContent = item.youtubeId 
-            ? `<div class="yt-preview-box" style="position:relative;width:100%;height:100%;overflow:hidden;border-radius:12px;">
-                <img src="https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;" alt="Video Preview">
+            ? `<div class="yt-preview-box" style="position:relative;width:100%;height:100%;overflow:hidden;border-radius:12px;background:#000;">
+                <iframe class="card-yt-iframe" 
+                        src="https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${item.youtubeId}&controls=0&modestbranding=1&rel=0&playsinline=1" 
+                        frameborder="0" 
+                        allow="autoplay; encrypted-media; picture-in-picture" 
+                        style="width:100%;height:100%;pointer-events:none;border-radius:12px;transform:scale(1.15);">
+                </iframe>
                </div>`
-            : `<video src="${item.src}" preload="metadata" muted loop playsinline></video>`;
+            : `<video src="${item.src}" autoplay muted loop playsinline></video>`;
 
         card.innerHTML = `
             <div class="video-preview-wrapper">
@@ -382,12 +387,6 @@ function renderVideos() {
             </div>
             <p class="video-caption">${item.caption}</p>
         `;
-        
-        const vidEl = card.querySelector("video");
-        if (vidEl) {
-            card.addEventListener("mouseenter", () => { vidEl.play().catch(() => {}); });
-            card.addEventListener("mouseleave", () => { vidEl.pause(); vidEl.currentTime = 0; });
-        }
 
         card.addEventListener("click", () => {
             if (item.youtubeId) {
