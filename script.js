@@ -61,11 +61,11 @@ Happy Birthday to someone truly special. ❤️
     ],
 
     videos: [
-        { youtubeId: "kHQ--82ZFqE", caption: "Unforgettable Joyful Moments 🎥" },
-        { youtubeId: "V6PtTdZrW1M", caption: "Laughter & Pure Happiness ✨" },
-        { youtubeId: "FyEMJImaf5I", caption: "Special Birthday Celebration 💖" },
-        { youtubeId: "t5wEPpYcejw", caption: "Cherished Memories Together 🌟" },
-        { youtubeId: "KVNZaue9y5o", caption: "Precious Moments & Endless Smiles 🌸" }
+        { youtubeId: "kHQ--82ZFqE" },
+        { youtubeId: "V6PtTdZrW1M" },
+        { youtubeId: "FyEMJImaf5I" },
+        { youtubeId: "t5wEPpYcejw" },
+        { youtubeId: "KVNZaue9y5o" }
     ]
 };
 
@@ -385,14 +385,13 @@ function renderVideos() {
                     <div class="play-btn-circle">▶</div>
                 </div>
             </div>
-            <p class="video-caption">${item.caption}</p>
         `;
 
         card.addEventListener("click", () => {
             if (item.youtubeId) {
-                openLightboxMedia('youtube', item.youtubeId, item.caption);
+                openLightboxMedia('youtube', item.youtubeId);
             } else {
-                openLightboxMedia('video', item.src, item.caption);
+                openLightboxMedia('video', item.src);
             }
         });
         container.appendChild(card);
@@ -406,7 +405,7 @@ function openLightboxMedia(type, srcOrId, caption) {
     const iframeEl = document.getElementById("lightbox-iframe");
     const captionEl = document.getElementById("lightbox-caption");
 
-    captionEl.textContent = caption;
+    captionEl.textContent = caption || "";
 
     // Reset displays
     imgEl.style.display = "none"; imgEl.src = "";
